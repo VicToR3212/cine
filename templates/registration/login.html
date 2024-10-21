@@ -1,0 +1,27 @@
+
+{%extends "base.html"%}
+
+
+{%block title%}__login___{%endblock%}
+
+
+
+{%  block content %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}" type='text/css' media="screen">
+{{error}}
+{% csrf_token %}
+<section>
+  <div class="from-box">
+
+    {%if error%}
+    <h3>{{error}}</h3>
+    {% endif %}
+    <form action="" method="post">
+      {% csrf_token %} 
+        
+      {{form}}
+      <button type ="submit">enviar</button>
+  </section> 
+{% endblock %}

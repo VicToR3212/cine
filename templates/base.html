@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{% static '/css/styles.css' %}" 
+      type="text/css"
+      media="screen"
+    />
+  </head>
+
+  <body>
+    <header>
+
+      <nav>
+        {% block title %} {% endblock %}        
+ 	 <ul>
+    <li><a href="{% url 'apps.publicaciones:mostrarTodo_publicacion'%}">inicio</a>
+
+      {%if request.user.is_authenticated%}
+      <h5>
+          <li>bienvenido:  {{ user.username | upper }}<a href={% url "apps.usuario:salir"%}>  cerrar cecion</a> 
+        </h5>
+        </li>
+      {%if request.user.is_staff%}
+
+        <li><a href="{% url 'apps.publicaciones:crear_publicacion'%}">publicar</a></li>
+        {%endif%}
+
+      {%else%}
+
+      <li>  bienvenido:  <a href={% url "apps.usuario:acceder"%}> inisiar cecion</a> </h5>  </li>
+      <li><a href="{% url 'apps.usuario:crear_usuario'%}">cuentanueva</a></li>
+      {%endif%}
+          
+
+
+
+                
+
+
+
+
+                
+        </li>
+        </ul>
+      </nav>
+
+
+
+
+
+
+
+
+    {% block content %}
+
+    {% endblock %}
+
+
+    
+    </header>
+    <footer>
+      <h3>todo sobre nosotrossss</h3>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{%extends "base.html"%} {%block title%}__ss___{%endblock%} {% block content %}
+<h3>{{publicacion.genero }} {{publicacion.nombre}} {{publicacion.review}}</h3>
+{% if publicacion.imagen %}
+<p>
+  <img src="{{ publicacion.imagen.url}}" />
+</p>
+
+  </div>
+  <form action="" method="POST">
+      {% csrf_token %}
+      {{form}}
+
+      <button type="submit">enviar a...</button>
+      
+  </form>
+</div>
+{% endif %} {% endblock %}
