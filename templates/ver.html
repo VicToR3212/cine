@@ -1,0 +1,50 @@
+{%extends "base.html"%} 
+{%block title%}__ss___{%endblock%}
+ {% block content %}
+<h3>{{publicacion.genero }} 
+  {{publicacion.nombre}}
+   {{publicacion.review}}</h3>
+{% if publicacion.imagen %}
+
+<p>
+  <img src="{{ publicacion.imagen.url}}" />
+</p>
+
+{% endif %}
+
+<h4>
+comentarios
+</h4>
+
+{%for comentario in comentarios%}
+<ul>
+<li>
+  {{comentario.autor.username}}
+  ({{comentario.fecha}}) {{comentario.texto}}
+</li>
+
+</ul>
+
+  
+
+{%endfor%}
+
+<h4>
+  fin de comentario
+  </h4>
+
+
+
+<div>
+<form action="" method="POST">
+  {% csrf_token %}
+  {{form}}
+    <textarea name="texto" placeholder="Escriba su comentario." rows="4"></textarea>
+
+    <button action="{%url  'apps.publicaciones:comentar'%}" type="submit"method="POST" >comentar</button>
+  
+</form>
+
+</div>
+
+{% endblock %}
