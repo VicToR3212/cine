@@ -3,12 +3,8 @@ from .forms import CrearpublicacionForm,Form_Modificacion
 from .models import Publicacion,Comentario
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.views.generic import DeleteView, UpdateView
-
-
 def is_colaborador(user):
     return user.groups.filter(name='moderador').exists()
-
-
 
 # # -----------------------------   CREAR PUBLICACION-----------------
 
@@ -41,19 +37,15 @@ def crear_publicacion(request):
 
 # -----------------------------   MOSTRAR TODOO PUBLICACION-----------------
 
-
 def mostrarTodo_publicacion(request):
     return render(request, "portada.html", {"peliculas": Publicacion.objects.all()})
 
-
 # # -----------------------------   MOSTRAR PUBLICACION-----------------
-
 
 def mostrar_publicacion(request, pk):
     publicacion = Publicacion.objects.get(pk=pk)
     print(pk)
     return render(request, "ver.html", {"publicacion": publicacion})
-
 
 # # -----------------------------   EDITAR PUBLICACION-----------------
 

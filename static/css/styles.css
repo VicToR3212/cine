@@ -1,81 +1,81 @@
-
-
-
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Montserrat+alternates|Poppins&display=swap');
 *{
     margin: 0;
     padding: 0;
-    font-family: "Poppins", sans-serif;
-    
+    font-family: 'Montserrat', sans-serif;
 }
-
+body{
+background-image: url(../imagenes/cine.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
 section{
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    align-items: stretch;
+    min-height: 0vh;
     width: 100%;
-    background: goldenrod;
-    /*background: url("")no-repeat;
-    background-position: center;
-    background-size: cover;*/
+    background-image: url(../imagenes/cine.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    /*background-position: 50% 25px: */
+    /*background-position: 20% 10%;*/
+    /*background-position:left top;*/
+    /*background-position: left center:*/
+    background-position: center center;
+    height: 400px;
+    background-attachment: fixed
 }
 
 .from-box{
-    position: relative;
+    position-try-order: center;
     width: 400px;
     height: 450px;
-    background: transparent;
-    border:2px solid rgba(255,255,255,0.56);
+    background-image:url(../imagenes/fondo\ de\ registro.jpg);
+    background-repeat: no-repeat;
+    background-attachment: local;
+    background-size: cover;
+    border:2px solid black;
     border-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-
-
-
 }
-
 h2{
-    font-size: 2em;
-    color: rgb(56, 157, 170);
+    font-size: 10em;
+    color: red;
     text-align: center;
-
 }
-
 .inmputbox{
     position: relative;
     margin: 30px 0;
     width: 310px;
     border-bottom: 2px solid #fff;
-
-
 }
-
 .inmputbox label{
     position: absolute; 
     top: 50%;
     left: 5px;
     transform: translateY(-50%);
     color: #a31919;
-    font-size: 1em;
+    font-size: 5em;
     pointer-events: none;
     transition: .3s;
 }
-
 
 input:focus~ label,
 input:valid~label{
 top: -5px;
 }
-
-
 .inmputbox input{
     width: 100%;
     height: 50px;
     background: transparent;
     border: none;
     outline: none;
-    font-size: 1em;
+    font-size: 5em;
     padding: 0 35px 0 5px;
     color: #fff;
 
@@ -85,34 +85,28 @@ top: -5px;
     position: absolute;
     right: 8px;
     color: #a31919;
-    font-size: 1.2em;
+    font-size: 1em;
     top: 20px;
 }
-
-
-
-
 
 button{
     width: 100%;
     height: 40px;
     border-radius: 40px;
-    background: #2e2d8f;
+    background: #fff;
     border: none;
     outline: none;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 2em;
     font-weight: 600;    
 }
 
 .registrer{
     font-size: .9em;
-    color: rgb(155, 14, 14);
+    color: white;
     text-align: center;
-    margin: 25px 0 10 px;
+    margin: 1px 0 1px;
 }
-
-
 .registrer p a{
     text-decoration: none;
     color: #fff;
@@ -122,7 +116,5 @@ button{
 
 .registrer p a:hover{
     text-decoration:underline;
-    
 }
-
 

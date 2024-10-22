@@ -3,68 +3,36 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{% static '/css/styles.css' %}" 
-      type="text/css"
-      media="screen"
-    />
+    <meta http-equiv="X-UA-Compatible" conect="IE-edgue">
+    <meta name="viewport"
+    conect="width=device-width, inicial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
   </head>
-
   <body>
     <header>
-
-      <nav>
-        {% block title %} {% endblock %}        
- 	 <ul>
-    <li><a href="{% url 'apps.publicaciones:mostrarTodo_publicacion'%}">inicio</a>
-
-      {%if request.user.is_authenticated%}
-      <h5>
-          <li>bienvenido:  {{ user.username | upper }}<a href={% url "apps.usuario:salir"%}>  cerrar cecion</a> 
-        </h5>
-        </li>
-      {%if request.user.is_staff%}
-
-        <li><a href="{% url 'apps.publicaciones:crear_publicacion'%}">publicar</a></li>
-        {%endif%}
-
-      {%else%}
-
-      <li>  bienvenido:  <a href={% url "apps.usuario:acceder"%}> inisiar cecion</a> </h5>  </li>
-      <li><a href="{% url 'apps.usuario:crear_usuario'%}">cuentanueva</a></li>
-      {%endif%}
-          
-
-
-
-                
-
-
-
-
-                
-        </li>
-        </ul>
-      </nav>
-
-
-
-
-
-
-
-
-    {% block content %}
-
-    {% endblock %}
-
-
-    
-    </header>
-    <footer>
-      <h3>todo sobre nosotrossss</h3>
-    </footer>
-  </body>
+      <main>
+      <div class="container">
+        <div class="btn-menu">
+            <label for="" clas="icon-menu"></label>
+        </div>
+        <div class="logo">
+          <h1>Cine Kaiser</h1>
+        <nav class="menu">
+        {% block title %} {% endblock %}
+        <a href="{% url 'apps.publicaciones:mostrarTodo_publicacion'%}">inicio</a>
+          {%if request.user.is_authenticated%}{{ user.username | upper }}
+        <a href={% url "apps.usuario:salir"%}>Cerrar sesion</a> 
+          {%if request.user.is_staff%}
+        <a href="{% url 'apps.publicaciones:crear_publicacion'%}">publicar</a>
+          {%endif%}{%else%}
+        <a href={% url "apps.usuario:acceder"%}> iniciar sesion</a> 
+        <a href="{% url 'apps.usuario:crear_usuario'%}">cuentanueva</a>
+          {%endif%} 
+</header>
+  {% block content %}SOBRE NOSOTROS {% endblock %}
+</main> 
+<footer>
+  <h3>todo sobre nosotrossss</h3>
+</footer>
+</body>
 </html>
