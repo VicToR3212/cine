@@ -48,10 +48,11 @@ def mostrarTodo_publicacion(request):
 
 # # -----------------------------   MOSTRAR PUBLICACION-----------------
 
-
+@login_required()
 def mostrar_publicacion(request, pk):
     publicacion = Publicacion.objects.get(pk=pk)
-    print(pk)
+    Agregar_Comentario(request,pk)
+    print("mmmmmmmmmmmmm")
     return render(request, "ver.html", {"publicacion": publicacion})
 
 
@@ -157,13 +158,18 @@ def get_context_data(self, **kwargs):
 
 def Agregar_Comentario(request,pk):
     form=Form_Modificacion(request.POST)
+    print("donde estoy 1")
 
     publicacion=Publicacion.objects.get(pk=pk)
+    print(publicacion ,"es la publi ")
+
     comentarios=Comentario.objects.filter(publicacion=publicacion)
+    print(comentarios)
     if request.method=='POST':
         print("donde estoy")
         form=Form_Modificacion(request.POST)
         if form.is_valid():
+            print("save")
             comentario=form.save(commit=False)
             comentario.publicacion=publicacion
             comentario.usuario=request.user            
@@ -171,8 +177,8 @@ def Agregar_Comentario(request,pk):
             return redirect("ver.html",pk=pk)
         else:
             form=Form_Modificacion()
-            return render(request,"ver.html",{'form':form,'comentarios':comentarios})
-	
+        return render(request,"ver.html",{'comentarios':comentarios,"form":form})
+
 #borrar
 class BorrarComentario(DeleteView):
 	model = Comentario
@@ -186,3 +192,5 @@ class ModificaComentario(UpdateView):
 	template_name = 'ver.html'
 	def get_success_url(self):         
 		return reverse_lazy('publicaciones:detalle_publicacion',kwargs={'pk': self.object.publicacion.pk})
+
+        # 300mNsHyT

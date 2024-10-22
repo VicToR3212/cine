@@ -20,7 +20,7 @@ urlpatterns = [
     path("filtradomenor/",filtradomenor, name="filtradomenor"),
     path("filtradomayor/",filtradomayor, name="filtradomayor"),
     
-  	path("comentar/<int:pk>",Agregar_Comentario, name = "comentar"),
+  	path("comentar/",Agregar_Comentario, name = "comentar"),
   	path('Borrar/<int:pk>', BorrarComentario.as_view(), name="borrar_comentario"),
 	path('Modificar/<int:pk>', ModificaComentario.as_view(), name="modificar_comentario"),
 
