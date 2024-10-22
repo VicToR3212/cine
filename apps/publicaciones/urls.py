@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import ModificaComentario,BorrarComentario,Agregar_Comentario,filtradomayor,filtradomenor,filtradoza,filtradoaz,crear_publicacion,mostrarTodo_publicacion,editar_publicacion,eliminar_publicacion,mostrar_publicacion
+# ----
+from .views import ModificaComentario,BorrarComentario,agregar_comentario,filtradomayor,filtradomenor,filtradoza,filtradoaz,crear_publicacion,mostrarTodo_publicacion,editar_publicacion,eliminar_publicacion,mostrar_publicacion
 
 
 app_name = "apps.publicaciones"
@@ -20,7 +21,7 @@ urlpatterns = [
     path("filtradomenor/",filtradomenor, name="filtradomenor"),
     path("filtradomayor/",filtradomayor, name="filtradomayor"),
     
-  	path("comentar/",Agregar_Comentario, name = "comentar"),
+  	path("comentar/<int:pk>",agregar_comentario, name = "comentar"),
   	path('Borrar/<int:pk>', BorrarComentario.as_view(), name="borrar_comentario"),
 	path('Modificar/<int:pk>', ModificaComentario.as_view(), name="modificar_comentario"),
 

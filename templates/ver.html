@@ -1,50 +1,38 @@
-{%extends "base.html"%} 
-{%block title%}__ss___{%endblock%}
- {% block content %}
-<h3>{{publicacion.genero }} 
-  {{publicacion.nombre}}
-   {{publicacion.review}}</h3>
+
+
+{% extends "base.html"%}
+
+{% block title %}Detalles de la Publicación{% endblock %}
+
+{% block content %}
+<h3>{{ publicacion.genero }}
+   {{ publicacion.nombre }}
+    {{ publicacion.review }}</h3>
+
 {% if publicacion.imagen %}
-
 <p>
-  <img src="{{ publicacion.imagen.url}}" />
+  <img src="{{ publicacion.imagen.url }}" alt="{{ publicacion.nombre }}">
 </p>
-
 {% endif %}
 
-<h4>
-comentarios
-</h4>
+<!-- Sección para mostrar comentarios existentes -->
+<h4>Comentarios</h4>
+{% for comentario in comentarios %}
+  <div>
+    <p><strong>{{ comentario.usuario }}:</strong> {{ comentario.texto }}</p>
+    <p><small>{{ comentario.created_at }}</small></p>
+  </div>
+{% empty %}
+  <p>No hay comentarios aún.</p>
+{% endfor %}
 
-{%for comentario in comentarios%}
-<ul>
-<li>
-  {{comentario.autor.username}}
-  ({{comentario.fecha}}) {{comentario.texto}}
-</li>
-
-</ul>
-
-  
-
-{%endfor%}
-
-<h4>
-  fin de comentario
-  </h4>
-
-
-
-<div>
-<form action="" method="POST">
+<!-- Formulario para agregar un nuevo comentario -->
+<h4>Agregar un comentario</h4>
+<form method="POST" action="{% url 'apps.publicaciones:comentar' publicacion.id %}" >
   {% csrf_token %}
-  {{form}}
-    <textarea name="texto" placeholder="Escriba su comentario." rows="4"></textarea>
-
-    <button action="{%url  'apps.publicaciones:comentar'%}" type="submit"method="POST" >comentar</button>
-  
+  <textarea name="texto" rows="4" cols="50" required></textarea>
+  <br>
+  <button type="submit">Enviar</button>
 </form>
-
-</div>
 
 {% endblock %}
