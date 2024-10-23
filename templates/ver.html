@@ -1,7 +1,8 @@
 {%extends "base.html"%} {%block title%}__ss___{%endblock%} {% block content %}
-<h3>{{publicacion.genero }} {{publicacion.nombre}} {{publicacion.review}}</h3>
-{% if publicacion.imagen %}
+<h3>  {{publicacion.genero }} {{publicacion.nombre}} {{publicacion.review}}</h3>
 <p>
-  <img src="{{ publicacion.imagen.url}}" />
+
+  <iframe width="650" height="315" src="https://1drv.ms/v/c/4629c9865fb60474/EdFbC2QOZtFEo20mTQ83OxgBmn_pYm0mn88ZK7paMplmLQ?e=gsW0Ez" allowfullscreen></iframe>
+
 </p>
-{% endif %} {% endblock %}
+{% endblock %}

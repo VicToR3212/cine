@@ -6,33 +6,40 @@
     <meta http-equiv="X-UA-Compatible" conect="IE-edgue">
     <meta name="viewport"
     conect="width=device-width, inicial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href={% static "/css/styles.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "/css/encabezado.css" %}>
   </head>
   <body>
-    <header>
       <main>
+    <header>
+
       <div class="container">
         <div class="btn-menu">
-            <label for="" clas="icon-menu"></label>
         </div>
+        <a href="apps.publicaciones:mostrarTodo_publicacion" class="logo">
+          <img src='/static/imagenes/LOGO.jpg' alt="Logo">
+      </a>
         <div class="logo">
           <h1>Cine Kaiser</h1>
         <nav class="menu">
         {% block title %} {% endblock %}
-        <a href="{% url 'apps.publicaciones:mostrarTodo_publicacion'%}">inicio</a>
+        <a href="{% url 'apps.publicaciones:mostrarTodo_publicacion'%}">Inicio</a>
           {%if request.user.is_authenticated%}{{ user.username | upper }}
-        <a href={% url "apps.usuario:salir"%}>Cerrar sesion</a> 
+        <a href="{% url 'apps.usuario:salir'%}">Cerrar sesion</a> 
           {%if request.user.is_staff%}
-        <a href="{% url 'apps.publicaciones:crear_publicacion'%}">publicar</a>
+        <a href="{% url 'apps.publicaciones:crear_publicacion'%}">Publicar</a>
           {%endif%}{%else%}
-        <a href={% url "apps.usuario:acceder"%}> iniciar sesion</a> 
-        <a href="{% url 'apps.usuario:crear_usuario'%}">cuentanueva</a>
+        <a href="{% url 'apps.usuario:acceder'%}"> Iniciar Sesion</a> 
+        <a href="{% url 'apps.usuario:crear_usuario'%}">Cuenta Nueva</a>
+        <a href="{% url 'apps.usuario:Sobre_Nosotros'%}">Sobre Nosotros</a>
           {%endif%} 
+      
 </header>
-  {% block content %}SOBRE NOSOTROS {% endblock %}
+ 
+{% block content %}SOBRE NOSOTROS {% endblock %}
+</body>  
 </main> 
 <footer>
   <h3>todo sobre nosotrossss</h3>
 </footer>
-</body>
 </html>

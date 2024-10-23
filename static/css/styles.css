@@ -2,10 +2,11 @@
 *{
     margin: 0;
     padding: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat Alternates', sans-serif;
 }
 body{
-background-image: url(../imagenes/cine.jpg);
+    
+    background-image: url(../imagenes/cine.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -31,13 +32,13 @@ section{
 
 .from-box{
     position-try-order: center;
-    width: 400px;
-    height: 450px;
+    width: 300px;
+    height: 350px;
     background-image:url(../imagenes/fondo\ de\ registro.jpg);
     background-repeat: no-repeat;
     background-attachment: local;
     background-size: cover;
-    border:2px solid black;
+    border:2px solid white;
     border-radius: 30px;
     display: flex;
     justify-content: center;
