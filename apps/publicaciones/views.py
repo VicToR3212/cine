@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import CrearpublicacionForm,Form_Modificacion
+from .forms import CrearpublicacionForm,Form_Modificacion, CajaComentario
 from .models import Publicacion,Comentario
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.views.generic import DeleteView, UpdateView
+from django.views import View
+from django.urls.base import reverse_lazy
+from django.http import HttpResponseRedirect, HttpResponse
 
 
 def is_colaborador(user):
@@ -192,5 +195,26 @@ class ModificaComentario(UpdateView):
 	template_name = 'ver.html'
 	def get_success_url(self):         
 		return reverse_lazy('publicaciones:detalle_publicacion',kwargs={'pk': self.object.publicacion.pk})
+
+#Agregar Like al comentario
+@login_required
+class AddLike(View):
+     def post (self, request, pk, *args, **kwargs):
+          publicacion=Publicacion.objects.get(pk=pk)
+
+          is_like = False
+          for like in Comentario.likes.all():
+               if like == request.user:
+                    is_like = True
+                    break
+          if not is_like:
+               Comentario.likes.add(request.user)
+          if is_like:
+               Comentario.likes.remove(request.user) 
+
+          next = request.POST.get('next', '/')
+          return HttpResponseRedirect(next)
+     
+
 
         # 300mNsHyT
