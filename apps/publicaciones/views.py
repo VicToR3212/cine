@@ -173,15 +173,15 @@ def comentariosMostrar(request,pk):
 class BorrarComentario(DeleteView):
 	model = Comentario
 	def get_success_url(self):         
-		return reverse_lazy('ver.html',kwargs={'pk': self.object.publicacion.pk})
+		return reverse_lazy('apps.publicaciones:mostrar_publicacion', kwargs={'pk': self.object.publicacion.pk})
 
 #-------------------------------EDICION DE COMENTARIOS--------------------------------------------------------------
 class ModificaComentario(UpdateView):
 	model = Comentario
 	form_class = Form_Modificacion
-	template_name = 'ver.html'
+	template_name = 'modificar.html'
 	def get_success_url(self):         
-		return reverse_lazy('ver.html',kwargs={'pk': self.object.publicacion.pk})
+		return reverse_lazy('apps.publicaciones:mostrar_publicacion', kwargs={'pk': self.object.publicacion.pk}) 
 
 #Agregar Like al comentario
 #Función add_like
