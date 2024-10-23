@@ -1,61 +1,62 @@
-{%extends "base.html"%} 
-{%block title%}__ss___{%endblock%}
- {% block content %}
-<h3>{{publicacion.genero }} 
-  {{publicacion.nombre}}
-   {{publicacion.review}}</h3>
+{% extends "base.html"%}
+
+{% block title %}Detalles de la Publicación{% endblock %}
+
+{% block content %}
+<h3>{{ publicacion.genero }}
+   {{ publicacion.nombre }}
+    {{ publicacion.review }}</h3>
+
 {% if publicacion.imagen %}
-
 <p>
-  <img src="{{ publicacion.imagen.url}}" />
+  <img src="{{ publicacion.imagen.url }}" alt="{{ publicacion.nombre }}">
 </p>
-
 {% endif %}
 
-<h4>
-comentarios
-</h4>
+<!-- Sección para mostrar comentarios existentes -->
+<h4>Comentarios</h4>
+{% for comentario in comentarios %}
+  <div>
+    <p><strong>{{ comentario.usuario }}:</strong> {{ comentario.texto }}</p>
+    <p><small>{{ comentario.created_at }}</small></p>
+    <!-- Mostrar cantidad de likes -->
+    <p>{{ comentario.likes.count }} likes</p>
 
-{%for comentario in comentarios%}
-<ul>
-<li>
-  {{comentario.autor.username}}
-  ({{comentario.fecha}}) {{comentario.texto}}
-</li>
+    <!-- Botón para dar o quitar "like" -->
+    <form action="{% url 'apps.publicaciones:like' publicacion.pk comentario.pk %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">
+            {% if user in comentario.likes.all %}
+                Quitar Like
+            {% else %}
+                Dar Like
+            {% endif %}
+        </button>
+    </form>
+    <!-- Opciones de editar y eliminar -->
+    {% if user == comentario.usuario or user.is_superuser %}
+    <div class="comentario-actions">
+      <!-- Botón para editar el comentario -->
+      <a href="{% url 'apps.publicaciones:modificar_comentario' comentario.pk %}" class="btn btn-primary">Editar</a>
 
-</ul>
+      <!-- Formulario para eliminar el comentario -->
+      <form action="{% url 'apps.publicaciones:borrar_comentario' comentario.pk %}" method="POST" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este comentario?');">Eliminar</button>
+      </form>
+    </div>
+  {% endif %}
+{% empty %}
+  <p>No hay comentarios aún.</p>
+{% endfor %}
 
-  
-
-{%endfor%}
-
-<h4>
-  fin de comentario
-  </h4>
-
-
-
-<div>
-  <div class="px-4 py-2">
-    <div class="flex items-center justify-between">
-        <div class="flex flex-row-reverse items-center">
-            
-            <span class="text-xs ml-2 text-gray-500 dark:text-dark-txt">{{post.likes.all.count}} Likes</span>
-            <div class="rounded-full grid place-items-center text-xl -ml-1 text-blue-500">
-                <i class='bx bxs-like'></i>
-            </div>
-            
-        </div>
-        <div class="flex flex-row-reverse items-center">
-<form action="" method="POST">
+<!-- Formulario para agregar un nuevo comentario -->
+<h4>Agregar un comentario</h4>
+<form method="POST" action="{% url 'apps.publicaciones:comentar' publicacion.id %}" >
   {% csrf_token %}
-  {{form}}
-    <textarea name="texto" placeholder="Escriba su comentario." rows="4"></textarea>
-
-    <button action="{%url  'apps.publicaciones:comentar'%}" type="submit"method="POST" >comentar</button>
-  
+  <textarea name="texto" rows="4" cols="50" required></textarea>
+  <br>
+  <button type="submit">Enviar</button>
 </form>
-
-</div>
 
 {% endblock %}

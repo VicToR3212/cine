@@ -34,7 +34,7 @@ class Comentario(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     texto = models.TextField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
-    like = models.ManyToManyField(User, blank=True, related_name='comment_likes')
+    likes = models.ManyToManyField(User, blank=True, related_name='comment_likes')
 
 
     

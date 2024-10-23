@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import CrearpublicacionForm,Form_Modificacion, CajaComentario
+from .forms import CrearpublicacionForm,Form_Modificacion
 from .models import Publicacion,Comentario
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.views.generic import DeleteView, UpdateView
-from django.views import View
 from django.urls.base import reverse_lazy
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 
 
 def is_colaborador(user):
@@ -31,13 +30,10 @@ def crear_publicacion(request):
             publicacion.fechachaEmicion = form.cleaned_data["fechachaEmicion"]          
             publicacion.Categoria = form.cleaned_data["Categoria"]
             publicacion.imagen = form.cleaned_data["imagen"]
-
             publicacion.save()
-            
             return redirect("apps.publicaciones:mostrarTodo_publicacion")
         else:
             print("invalido")
-
     contexto = {"form": form}
     return render(request, "publicar.html", {"form": form})
 
@@ -49,14 +45,13 @@ def mostrarTodo_publicacion(request):
     return render(request, "portada.html", {"peliculas": Publicacion.objects.all()})
 
 
-# # -----------------------------   MOSTRAR PUBLICACION-----------------
+#--------------------------------   MOSTRAR PUBLICACION-----------------
 
 @login_required()
 def mostrar_publicacion(request, pk):
     publicacion = Publicacion.objects.get(pk=pk)
-    Agregar_Comentario(request,pk)
-    print("mmmmmmmmmmmmm")
-    return render(request, "ver.html", {"publicacion": publicacion})
+    comentarios=Comentario.objects.all().filter(publicacion=publicacion)
+    return render(request, "ver.html", {"publicacion": publicacion,"comentarios":comentarios})
 
 
 # # -----------------------------   EDITAR PUBLICACION-----------------
@@ -74,14 +69,10 @@ def editar_publicacion(request, pk):
             "fechachaEmicion":publicacion.fechachaEmicion
         }
         
-    )
-
-    
+    ) 
     data = {"form": CrearpublicacionForm(request.POST)}
     if request.method == "POST":
         form = CrearpublicacionForm(request.POST, request.FILES)
-        
-
         if form.is_valid():
             publicacion.nombre = form.cleaned_data["nombre"]
             publicacion.review = form.cleaned_data["review"]
@@ -93,7 +84,6 @@ def editar_publicacion(request, pk):
             return redirect("apps.publicaciones:mostrarTodo_publicacion")
         else:
             print("invalido")
-
     contexto = {"form": form}
     return render(request, "publicar.html", {"form": form})
 
@@ -112,13 +102,12 @@ def eliminar_publicacion(request, id):
     os.remove(ruta)
     return redirect("apps.publicaciones:mostrarTodo_publicacion")
 
-# #---------------------------filtros-----------------------------------
+# #---------------------------FILTROS-----------------------------------
 
 # #---------------------------filtros-----de la Z la  A------------------------------
 
 def filtradoza(request):
         return render(request, "portada.html", {"peliculas": Publicacion.objects.all().order_by('-nombre')})
-    #filtradomayot,filtradomenor,filtradoza,filtradoaz
 # #---------------------------filtros  DE LA A la Z-----------------------------------
 
 def filtradoaz(request):
@@ -136,16 +125,8 @@ def filtradomayor(request):
 
 
 # -------------------------------------------------------------------------------------------------------------------------
-# comentarioss 
+#--------------------------------------COMENTARIOS---------------------------------------------------------------------------- 
 
-
-# ver comentario 
-
-# class Postdetalleview(generic.DetailView):
-#     model=Comentario
-#     queryset = Comentario.objects.filter(
-#         pub_date_lte=timezone.now()
-#     )
 
 def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -155,66 +136,71 @@ def get_context_data(self, **kwargs):
 
 
 
-#--------agregar
+#----------------------------------------------agregar---------------------------------------------------------------------------
 
 
 
-def Agregar_Comentario(request,pk):
-    form=Form_Modificacion(request.POST)
-    print("donde estoy 1")
-
-    publicacion=Publicacion.objects.get(pk=pk)
-    print(publicacion ,"es la publi ")
-
-    comentarios=Comentario.objects.filter(publicacion=publicacion)
-    print(comentarios)
-    if request.method=='POST':
-        print("donde estoy")
+def agregar_comentario(request,pk):
+    publicacion=Publicacion.objects.get(id=pk)
+    if request.method=="POST":
         form=Form_Modificacion(request.POST)
         if form.is_valid():
-            print("save")
+            
             comentario=form.save(commit=False)
             comentario.publicacion=publicacion
+            
             comentario.usuario=request.user            
+            
             comentario.save()
-            return redirect("ver.html",pk=pk)
+            return redirect("apps.publicaciones:mostrar_publicacion",pk=pk)
         else:
-            form=Form_Modificacion()
-        return render(request,"ver.html",{'comentarios':comentarios,"form":form})
 
-#borrar
+            return render (request,"ver.html",{"form":form,"publicacion":publicacion})
+    else:
+        return redirect("apps.publicaciones:mostrar_publicacion",pk=pk)
+    
+
+# -------------------------------MUESTRA LOS COMENTARIOS------------------------------------------------------------
+def comentariosMostrar(request,pk):
+    publicacion=Publicacion.objects.get(pk=pk)
+    comentarios=Comentario.objects.filter(publicacion=publicacion)
+    print(comentarios,"does")
+    return render(request, "ver.html", {"comentarios":comentarios})
+
+
+
+#-------------------------------BORRADO DE COMENTARIOS--------------------------------------------------------------
 class BorrarComentario(DeleteView):
 	model = Comentario
 	def get_success_url(self):         
-		return reverse_lazy('publicaciones:detalle_publicacion',kwargs={'pk': self.object.publicacion.pk})
+		return reverse_lazy('ver.html',kwargs={'pk': self.object.publicacion.pk})
 
-# modificar
+#-------------------------------EDICION DE COMENTARIOS--------------------------------------------------------------
 class ModificaComentario(UpdateView):
 	model = Comentario
 	form_class = Form_Modificacion
 	template_name = 'ver.html'
 	def get_success_url(self):         
-		return reverse_lazy('publicaciones:detalle_publicacion',kwargs={'pk': self.object.publicacion.pk})
+		return reverse_lazy('ver.html',kwargs={'pk': self.object.publicacion.pk})
 
 #Agregar Like al comentario
+#Función add_like
 @login_required
-class AddLike(View):
-     def post (self, request, pk, *args, **kwargs):
-          publicacion=Publicacion.objects.get(pk=pk)
+def add_like(request, pk, comentario_pk):
+    # Obtener la publicación y el comentario
+    publicacion = get_object_or_404(Publicacion, pk=pk)
+    comentario = get_object_or_404(Comentario, pk=comentario_pk)
 
-          is_like = False
-          for like in Comentario.likes.all():
-               if like == request.user:
-                    is_like = True
-                    break
-          if not is_like:
-               Comentario.likes.add(request.user)
-          if is_like:
-               Comentario.likes.remove(request.user) 
-
-          next = request.POST.get('next', '/')
-          return HttpResponseRedirect(next)
+    # Verificar si el usuario ya ha dado "like"
+    if request.user in comentario.likes.all():
+        comentario.likes.remove(request.user)  # Quitar el "like"
+    else:
+        comentario.likes.add(request.user)  # Agregar el "like"
+    return redirect ("apps.publicaciones:mostrar_publicacion",pk=pk)
      
 
-
+        #alf
         # 300mNsHyT
+
+        #asd
+        #123
