@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Montserrat+alternates|Poppins&display=swap');
+body{
+    font-family: 'Montserrat Alternates';
+    margin: 0;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+header{
+    display: flex;
+    height: 130px; /*es el tamaño correcto del encabezado TNT!*/
+    background-image: url(../imagenes/lgo..jpg);
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    text-decoration: none;
+    color: white;
+    background-size: cover;
+}
+.logo{
+    display: flex;
+    align-items: baseline;
+}
+.logo img{
+    height: 150px; /*es el tamaño del logo TNT!*/
+    margin-top: 10px; /*margen superior TNT!*/
+    margin-right: 50px;/*margen de la letra y el logo TNT!*/
+    justify-content:center;
+    background-image: url(../imagenes/LOGO.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+nav a{
+    text-align: right;
+    margin-top: -150px;
+    font-weight: 600;
+    padding: 20px;
+}
+nav a:hover{
+    text-align: right;
+    margin-top: -150px;
+    color: yellow;
+}
+@media (max-width:700px){
+    header{
+        flex-direction: column;
+    }
+    nav{
+        padding: 30px 0px;
+    }
+}

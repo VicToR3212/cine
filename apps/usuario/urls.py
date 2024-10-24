@@ -5,10 +5,8 @@ from .views import crear_usuario,acceder,salir
 app_name = "apps.usuario"
 
 urlpatterns = [
-    path("crear/", crear_usuario, name="crear_usuario"),
-    path("acceder/",acceder ,name='acceder'),
-    path("salir/",salir ,name='salir'),
-
-   
-
+    path("Crear/", crear_usuario, name="crear_usuario"),
+    path("Acceder/",acceder ,name='acceder'),
+    path("Salir/",salir ,name='salir'),
+    path("Sobre_Nosotros/",Sobre_Nosotros,name='Sobre_Nosotros'),
 ]

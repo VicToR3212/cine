@@ -19,8 +19,6 @@ from django.http import HttpResponseRedirect
 def is_colaborador(user):
     return user.groups.filter(name='moderador').exists()
 
-
-
 # # -----------------------------   CREAR PUBLICACION-----------------
 
 @login_required()
@@ -49,7 +47,6 @@ def crear_publicacion(request):
 
 # -----------------------------   MOSTRAR TODOO PUBLICACION-----------------
 
-
 def mostrarTodo_publicacion(request):
     return render(request, "portada.html", {"peliculas": Publicacion.objects.all()})
 
@@ -61,7 +58,6 @@ def mostrar_publicacion(request, pk):
     publicacion = Publicacion.objects.get(pk=pk)
     comentarios=Comentario.objects.all().filter(publicacion=publicacion)
     return render(request, "ver.html", {"publicacion": publicacion,"comentarios":comentarios})
-
 
 # # -----------------------------   EDITAR PUBLICACION-----------------
 

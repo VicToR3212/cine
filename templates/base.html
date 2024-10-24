@@ -3,16 +3,36 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{% static '/css/styles.css' %}" 
-      type="text/css"
-      media="screen"
-    />
+    <meta http-equiv="X-UA-Compatible" conect="IE-edgue">
+    <meta name="viewport" conect="width=device-width, inicial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href={% static "/css/styles.css" %}>
+    <link rel="stylesheet" type="text/css" href={% static "/css/encabezado.css" %}>
   </head>
   <body>
     <header>
+      <div class="container"style="background-color: transparente; padding: 10px 20px;">
+        <div class="btn-menu"style="display: flex; align-items: center; justify-content: space-between;" >
+            <div class="logo">
+              <a href="apps.publicaciones:mostrarTodo_publicacion" class="logo">
+                  <img src='/static/imagenes/LOGO.jpg' alt="Logo" >
+              </a>
+            </div>
+            <div>
+              <h1 style="margin: 0; font-size: 50px;">Cine Kaiser</h1>
+              <h3 style="margin: 0; font-size: 30px; color: #555;">Elige tu favorito y viaja en el tiempo</h3>
+            </div>
+        <nav class="menu">
+        {% block title %}{% endblock %}
+        <a href="{% url 'apps.publicaciones:mostrarTodo_publicacion'%}">Inicio</a>
+          {%if request.user.is_authenticated%}{{ user.username | upper }}
+        <a href="{% url 'apps.usuario:salir'%}">Cerrar sesion</a> 
+          {%if request.user.is_staff%}
+        <a href="{% url 'apps.publicaciones:crear_publicacion'%}">Publicar</a>
+          {%endif%}{%else%}
+        <a href="{% url 'apps.usuario:acceder'%}"> Iniciar Sesion</a> 
+        <a href="{% url 'apps.usuario:crear_usuario'%}">Cuenta Nueva</a>
+        <a href="{% url 'apps.usuario:Sobre_Nosotros'%}">Sobre Nosotros</a>
+          {%endif%} 
       <nav>
 
 
@@ -71,8 +91,6 @@
 
     
     </header>
-    <footer>
-      <h3>todo sobre nosotrossss</h3>
-    </footer>
-  </body>
+      {% block content %} {% endblock %}
+  </body>  
 </html>

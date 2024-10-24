@@ -5,6 +5,18 @@
 {% block content %}
 <h3>{{ publicacion.genero }}
    {{ publicacion.nombre }}
+    {{ publicacion.enlace}}</h3>
+
+{% if publicacion.imagen %}
+<p>
+  <video width="330" height="240" >
+    <source src="publicaciones.enlace" type="video/mp4">
+  </video>
+</p>
+{% endif %}
+
+    <!-- Botón para dar o quitar "like" -->
+{%endblock%}
     {{ publicacion.review }}</h3>
 
 {% if publicacion.imagen %}
