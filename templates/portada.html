@@ -4,16 +4,13 @@
 <link rel="stylesheet" href="css/estilo.css"> 
 {% block content %} 
  {%for p in peliculas %}
- 
  <div style="border:2px solid red; width:1000px; height 2000px;">
-
   <div>
     {{p.genero }} 
     {{p.nombre}}
      {{p.review}}
       {% if p.imagen %}
-      <img src="{{p.imagen.url}}  "> 
-      
+      <img src="{{p.imagen.url}}  ">     
 </div>  
   <div style="border:2px solid black; width:1000px; height 2000px;">
    {% endif %}
@@ -23,11 +20,6 @@
   <a href="{% url 'apps.publicaciones:eliminar_publicacion' p.id %}">eliminar</a>
   </div> 
 </div>
-
   {%endif%} 
   {%endfor%}
-
-
-
- 
 {% endblock %}

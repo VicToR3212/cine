@@ -9,12 +9,11 @@ a{
 }
 header{
     display: flex;
-    height: 70px;
+    height: 130px; /*es el tamaño correcto del encabezado TNT!*/
     background-image: url(../imagenes/lgo..jpg);
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-
     text-decoration: none;
     color: white;
     background-size: cover;
@@ -24,20 +23,23 @@ header{
     align-items: baseline;
 }
 .logo img{
-    height: 50px;
-    margin-right: 50px;
-    justify-content:baseline;
-    width: 25%;
+    height: 150px; /*es el tamaño del logo TNT!*/
+    margin-top: 10px; /*margen superior TNT!*/
+    margin-right: 50px;/*margen de la letra y el logo TNT!*/
+    justify-content:center;
     background-image: url(../imagenes/LOGO.jpg);
     background-size: cover;
     background-repeat: no-repeat;
 }
-
 nav a{
+    text-align: right;
+    margin-top: -150px;
     font-weight: 600;
     padding: 20px;
 }
 nav a:hover{
+    text-align: right;
+    margin-top: -150px;
     color: yellow;
 }
 @media (max-width:700px){

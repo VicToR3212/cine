@@ -4,25 +4,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" conect="IE-edgue">
-    <meta name="viewport"
-    conect="width=device-width, inicial-scale=1.0">
+    <meta name="viewport" conect="width=device-width, inicial-scale=1.0">
     <link rel="stylesheet" type="text/css" href={% static "/css/styles.css" %}>
     <link rel="stylesheet" type="text/css" href={% static "/css/encabezado.css" %}>
   </head>
   <body>
-      <main>
     <header>
+      <div class="container"style="background-color: transparente; padding: 10px 20px;">
+        <div class="btn-menu"style="display: flex; align-items: center; justify-content: space-between;" >
+            <div class="logo">
+              <a href="apps.publicaciones:mostrarTodo_publicacion" class="logo">
+                  <img src='/static/imagenes/LOGO.jpg' alt="Logo" >
+              </a>
+            </div>
+            <div>
+              <h1 style="margin: 0; font-size: 50px;">Cine Kaiser</h1>
+              <h3 style="margin: 0; font-size: 30px; color: #555;">Elige tu favorito y viaja en el tiempo</h3>
+            </div>
 
-      <div class="container">
-        <div class="btn-menu">
-        </div>
-        <a href="apps.publicaciones:mostrarTodo_publicacion" class="logo">
-          <img src='/static/imagenes/LOGO.jpg' alt="Logo">
-      </a>
-        <div class="logo">
-          <h1>Cine Kaiser</h1>
         <nav class="menu">
-        {% block title %} {% endblock %}
+        {% block title %}{% endblock %}
         <a href="{% url 'apps.publicaciones:mostrarTodo_publicacion'%}">Inicio</a>
           {%if request.user.is_authenticated%}{{ user.username | upper }}
         <a href="{% url 'apps.usuario:salir'%}">Cerrar sesion</a> 
@@ -33,13 +34,7 @@
         <a href="{% url 'apps.usuario:crear_usuario'%}">Cuenta Nueva</a>
         <a href="{% url 'apps.usuario:Sobre_Nosotros'%}">Sobre Nosotros</a>
           {%endif%} 
-      
-</header>
- 
-{% block content %}SOBRE NOSOTROS {% endblock %}
-</body>  
-</main> 
-<footer>
-  <h3>todo sobre nosotrossss</h3>
-</footer>
+    </header>
+      {% block content %} {% endblock %}
+  </body>  
 </html>

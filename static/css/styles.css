@@ -12,6 +12,11 @@ body{
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+.h1 {
+    font-zise:20%;
+    display: flex;
+    justify-content: flex-end;
+}
 section{
     display: flex;
     justify-content: center;
@@ -32,28 +37,23 @@ section{
 
 .from-box{
     position-try-order: center;
-    width: 300px;
-    height: 350px;
+    background-size: cover;
+    width: 500px;
+    height: 550px;
     background-image:url(../imagenes/fondo\ de\ registro.jpg);
     background-repeat: no-repeat;
     background-attachment: local;
-    background-size: cover;
-    border:2px solid white;
+
+    border:5px black;
     border-radius: 30px;
-    display: flex;
     justify-content: center;
     align-items: center;
-}
-h2{
-    font-size: 10em;
-    color: red;
-    text-align: center;
 }
 .inmputbox{
     position: relative;
     margin: 30px 0;
     width: 310px;
-    border-bottom: 2px solid #fff;
+    border-bottom: 1px solid #fff;
 }
 .inmputbox label{
     position: absolute; 
@@ -65,11 +65,6 @@ h2{
     pointer-events: none;
     transition: .3s;
 }
-
-input:focus~ label,
-input:valid~label{
-top: -5px;
-}
 .inmputbox input{
     width: 100%;
     height: 50px;
@@ -79,14 +74,12 @@ top: -5px;
     font-size: 5em;
     padding: 0 35px 0 5px;
     color: #fff;
-
 }
-
 .inmputbox ion-icon{
     position: absolute;
     right: 8px;
-    color: #a31919;
-    font-size: 1em;
+    color: transparent;
+    font-size: em;
     top: 20px;
 }
 
@@ -114,8 +107,6 @@ button{
     font-weight: 600;
 
 }
-
 .registrer p a:hover{
-    text-decoration:underline;
+    text-decoration:none;
 }
-
