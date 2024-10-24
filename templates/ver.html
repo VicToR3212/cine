@@ -1,6 +1,19 @@
-{%extends "base.html"%} {%block title%}{%endblock%} {% block content %}
-<h3>  {{publicacion.genero }} {{publicacion.nombre}} {{publicacion.review}}</h3>
+{% extends "base.html"%}
+
+{% block title %}Detalles de la Publicación{% endblock %}
+
+{% block content %}
+<h3>{{ publicacion.genero }}
+   {{ publicacion.nombre }}
+    {{ publicacion.enlace}}</h3>
+
+{% if publicacion.imagen %}
 <p>
-  <iframe width="650" height="315" src="publicacion.enlace" allowfullscreen></iframe>
+  <video width="330" height="240" >
+    <source src="publicaciones.enlace" type="video/mp4">
+  </video>
 </p>
-{% endblock %}
+{% endif %}
+
+    <!-- Botón para dar o quitar "like" -->
+{%endblock%}

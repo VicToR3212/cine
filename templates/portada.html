@@ -4,15 +4,17 @@
 <link rel="stylesheet" href="css/estilo.css"> 
 {% block content %} 
  {%for p in peliculas %}
- <div style="border:2px solid red; width:1000px; height 2000px;">
+ <div contenedor{
+ }como se llama contenedor de imagenes preguntatr a vero franco 
+ style="">
   <div>
     {{p.genero }} 
     {{p.nombre}}
      {{p.review}}
       {% if p.imagen %}
-      <img src="{{p.imagen.url}}  ">     
+      <img src="{{p.imagen.url}} ">     
 </div>  
-  <div style="border:2px solid black; width:1000px; height 2000px;">
+  <div style="display: flex; align-items: flex-end; height: 0px;">
    {% endif %}
     <a href="{% url 'apps.publicaciones:mostrar_publicacion' p.id %}">ver</a>
   {%if request.user.is_staff%}
