@@ -1,10 +1,19 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import authenticate,login,logout
+
 from .forms import CrearpublicacionForm,Form_Modificacion
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.views.generic import DeleteView, UpdateView
 # ··------------------------------------------------------------
 from .models import Publicacion,Comentario
 from .forms import CrearpublicacionForm,Form_Modificacion
+
+# ----
+from django.urls.base import reverse_lazy
+from django.http import HttpResponseRedirect
+
+
+
 
 
 def is_colaborador(user):
@@ -56,9 +65,46 @@ def mostrar_publicacion(request, pk):
 
 # # -----------------------------   EDITAR PUBLICACION-----------------
 
+
+def editar_publicacion(request,id):
+    # publicacion = get_object_or_404(Publicacion,id=id)
+    publicacion = Publicacion.objects.get(id=id)
+    if request.method == 'POST':
+        form = CrearpublicacionForm(request.POST, request.FILES, instance=publicacion)
+        if form.is_valid():
+            form.save()
+            return redirect('apps.publicaciones:mostrarTodo_publicacion')  # Redirige a la lista de publicaciones o al detalle
+    else:
+        form = CrearpublicacionForm(instance=publicacion)
+        
+        return render(request, "editar.html", {'form':form, 'publicacion':publicacion})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @login_required()
 @user_passes_test(is_colaborador)
-def editar_publicacion(request, pk):
+def editar_publicacions(request, pk):
     publicacion = Publicacion.objects.get(pk=pk)
     form = CrearpublicacionForm(
         initial={
@@ -68,8 +114,8 @@ def editar_publicacion(request, pk):
             "enlace": publicacion.enlace,
             "fechachaEmicion":publicacion.fechachaEmicion
         }
-        
-    ) 
+    )
+
     data = {"form": CrearpublicacionForm(request.POST)}
     if request.method == "POST":
         form = CrearpublicacionForm(request.POST, request.FILES)
@@ -135,7 +181,6 @@ def get_context_data(self, **kwargs):
     
 
 
-
 #----------------------------------------------agregar---------------------------------------------------------------------------
 
 
@@ -173,14 +218,30 @@ def comentariosMostrar(request,pk):
 class BorrarComentario(DeleteView):
 	model = Comentario
 	def get_success_url(self):         
-		return reverse_lazy('ver.html',kwargs={'pk': self.object.publicacion.pk})
+		return reverse_lazy('apps.publicaciones:mostrar_publicacion', kwargs={'pk': self.object.publicacion.pk})
 
 #-------------------------------EDICION DE COMENTARIOS--------------------------------------------------------------
 class ModificaComentario(UpdateView):
 	model = Comentario
 	form_class = Form_Modificacion
-	template_name = 'ver.html'
+	template_name = 'modificar.html'
 	def get_success_url(self):         
-		return reverse_lazy('ver.html',kwargs={'pk': self.object.publicacion.pk})
+		return reverse_lazy('apps.publicaciones:mostrar_publicacion', kwargs={'pk': self.object.publicacion.pk}) 
+
+#Agregar Like al comentario
+#Función add_like
+@login_required
+def add_like(request, pk, comentario_pk):
+    # Obtener la publicación y el comentario
+    publicacion = get_object_or_404(Publicacion, pk=pk)
+    comentario = get_object_or_404(Comentario, pk=comentario_pk)
+
+    # Verificar si el usuario ya ha dado "like"
+    if request.user in comentario.likes.all():
+        comentario.likes.remove(request.user)  # Quitar el "like"
+    else:
+        comentario.likes.add(request.user)  # Agregar el "like"
+    return redirect ("apps.publicaciones:mostrar_publicacion",pk=pk)
+     
 
         # 300mNsHyT

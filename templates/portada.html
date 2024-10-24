@@ -29,48 +29,43 @@
 {% endcomment %}
   
 
-
 {%for p in peliculas %}
 
+<div style ="border:2px  solid black; width:1000px ; height 200px;">
+  <div  style ="border: 2px solid black;width:1000px ; height 200px;">
 
-
-
-<li>
   <h3>
     <ul>
-    <label>nombre:{{p.nombre}}</label>
-    <label>review:{{p.review}}</label>
+    <h4>nombre:{{p.nombre}}<h4>
+    <h4>review:{{p.review}}</h4>
     </ul>
     <ul>
-      <label>fechade emecion: {{p.fechachaEmicion}}</label>
-      <label>categoria: {{p.Categoria}}</label>
+      <h4>fechade emecion: {{p.fechachaEmicion}}</h4>
+      <h4>categoria: {{p.Categoria}}</h4>
       </ul>
-     
       <ul>
-        <label>enlace :{{p.enlace}}</label>
-        </ul>
-      
-    
+        <h4>enlace :{{p.enlace}}</h4>
+        </ul> 
+      </div>  
+      <div style ="border:2PX  solid black;width:1000px ; height 200px;">
       {{p.enlace}} 
     {% if p.imagen %}
     <p>
         <img src="{{p.imagen.url}}">
     </p>
     {% endif %}
-   
-
-
-
+    </div>
   </h3>
-  
+
+  <div>
   <a href="{% url 'apps.publicaciones:mostrar_publicacion' p.id %}">ver</a>
   {%if request.user.is_staff%}
   <a href="{% url 'apps.publicaciones:editar_publicacion' p.id %}">edit</a>
   <a href="{% url 'apps.publicaciones:eliminar_publicacion' p.id %}">eliminar</a>
   {%endif%}
-          
-  
+  </div>
+</div>
 
-</li>
+
 {%endfor%} 
 {% endblock %}

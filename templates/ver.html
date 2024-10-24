@@ -1,5 +1,3 @@
-
-
 {% extends "base.html"%}
 
 {% block title %}Detalles de la Publicación{% endblock %}
@@ -21,7 +19,33 @@
   <div>
     <p><strong>{{ comentario.usuario }}:</strong> {{ comentario.texto }}</p>
     <p><small>{{ comentario.created_at }}</small></p>
-  </div>
+    <!-- Mostrar cantidad de likes -->
+    <p>{{ comentario.likes.count }} likes</p>
+
+    <!-- Botón para dar o quitar "like" -->
+    <form action="{% url 'apps.publicaciones:like' publicacion.pk comentario.pk %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">
+            {% if user in comentario.likes.all %}
+                Quitar Like
+            {% else %}
+                Dar Like
+            {% endif %}
+        </button>
+    </form>
+    <!-- Opciones de editar y eliminar -->
+    {% if user == comentario.usuario or user.is_staff %}
+    <div class="comentario-actions">
+      <!-- Botón para editar el comentario -->
+      <a href="{% url 'apps.publicaciones:modificar_comentario' comentario.pk %}" class="btn btn-primary">Editar</a>
+
+      <!-- Formulario para eliminar el comentario -->
+      <form action="{% url 'apps.publicaciones:borrar_comentario' comentario.pk %}" method="POST" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este comentario?');">Eliminar</button>
+      </form>
+    </div>
+  {% endif %}
 {% empty %}
   <p>No hay comentarios aún.</p>
 {% endfor %}
@@ -36,3 +60,6 @@
 </form>
 
 {% endblock %}
+
+
+

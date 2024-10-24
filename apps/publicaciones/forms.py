@@ -1,3 +1,4 @@
+# ACA SE VA CREAR UN FORMULARIO BASADO A LOS DATOS QUE SE DESEAN EN EL FORMULARIO
 from django import forms
 # -----------------------
 from .models import Publicacion, Categoria,Comentario
