@@ -3,8 +3,18 @@
 {%block title%}Publicar{%endblock%}
 {%  block content %}
    <form  method="POST" enctype="multipart/form-data">
+
+
+{%block title%}__publicar___{%endblock%}
+
+
+ 
+
+{%  block content%}
+
+   <form  method="GET" enctype="multipart/form-data">
     {% csrf_token %}
      {{ form }}
      <button type ="submit">enviar</button>
     </form>
-{% endblock %}
+{% endblock %}  

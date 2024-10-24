@@ -3,6 +3,8 @@
 {%endblock%}
 {%  block content %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/barranv.css' %}" type='text/css' media="screen">
+
 <link rel="stylesheet" href="{% static 'css/styles.css' %}" type='text/css' media="screen">
 {% csrf_token %}
 {%if error%}

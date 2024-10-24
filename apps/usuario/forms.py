@@ -1,33 +1,31 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .models import usuario
+from django.contrib.auth.models import User
 
 
 # aca se crea el formulario para registar usuarios
 class CrearUsuarioForm(forms.Form):
-    correo = forms.EmailField(
-        widget=forms.TextInput(attrs={"pleaceholder": "coreo", "class": "login_input"})
-    )
-    nombreUser = forms.CharField(
+   
+    Username = forms.CharField(
         widget=forms.TextInput({"pleaceholder": "usuario", "class": "login_input"})
     )
-    pasword = forms.CharField(
+    password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={"pleaceholder": "contraseña", "class": "login_input"}
         )
     )
-    pasword2 = forms.CharField(
+    password2 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={"pleaceholder": "contraseña", "class": "login_input"}
         )
     )
 
     class Meta:
-        model = usuario
+        model = User
         # esta instrucion hace referencia a todos los atribuos
-        fields = ["correo", "nombreUser", "pasword", "pasword2"]
+        fields = [ "username", "password1", "password2"]
         help_texts = {k: "" for k in fields}
-
 
 class logearForm(forms.ModelForm):
     usuario = forms.CharField(
