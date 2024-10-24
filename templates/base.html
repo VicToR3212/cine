@@ -11,11 +11,27 @@
       media="screen"
     />
   </head>
-
   <body>
     <header>
-
       <nav>
+
+
+
+
+
+        
+<label for ="fil">filtrar por :</label>
+<select name ="" id="fil">
+  <option value="">de la A a la Z</option>
+  <option value="">de la Z a la A</option>
+  <option value="">fecha mayor a menor</option>
+  <option value="">fecha menor a mayor</option>
+   
+
+
+</select>
+
+
         {% block title %} {% endblock %}        
  	 <ul>
     <li><a href="{% url 'apps.publicaciones:mostrarTodo_publicacion'%}">inicio</a>
@@ -36,14 +52,6 @@
       <li><a href="{% url 'apps.usuario:crear_usuario'%}">cuentanueva</a></li>
       {%endif%}
           
-
-
-
-                
-
-
-
-
                 
         </li>
         </ul>
