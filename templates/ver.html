@@ -1,31 +1,27 @@
 {% extends "base.html"%}
-
-{% block title %}Detalles de la Publicación{% endblock %}
-
 {% block content %}
-<h3>{{ publicacion.genero }}
+<h3 style="margin: 30; font-size: 20px; color: black; margin-left:0px;text-align: center;">{{ publicacion.genero }}
    {{ publicacion.nombre }}
     {{ publicacion.review }}</h3>
-
-{% if publicacion.imagen %}
-<p>
-  <iframe width="650" height="315" src="{{publicacion.enlace}}" allowfullscreen></iframe>
-</p>
+    {% if publicacion.imagen %}
+<div style="text-align: center;" >
+  <iframe width="315" height="315" src="{{publicacion.enlace}}" allowfullscreen ></iframe>
+</div>
 {% endif %}
 
 <!-- Sección para mostrar comentarios existentes -->
-<h4>Comentarios</h4>
+<h4 style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px; text-align: center; justify-content: center;">Comentarios</h4>
 {% for comentario in comentarios %}
-  <div>
-    <p><strong>{{ comentario.usuario }}:</strong> {{ comentario.texto }}</p>
-    <p><small>{{ comentario.created_at }}</small></p>
+  <div style="text-align: center;">
+    <p style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px;"><strong>{{ comentario.usuario }}:</strong> {{ comentario.texto }}</p>
+    <p style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px;"><small>{{ comentario.created_at }}</small></p>
     <!-- Mostrar cantidad de likes -->
-    <p>{{ comentario.likes.count }} likes</p>
+    <p style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px; justify-content: center;">{{ comentario.likes.count }} likes</p>
 
     <!-- Botón para dar o quitar "like" -->
     <form action="{% url 'apps.publicaciones:like' publicacion.pk comentario.pk %}" method="POST">
         {% csrf_token %}
-        <button type="submit">
+        <button style="width: 120px; height: 50px; font-size: 20px; align-items: centerjustify-content: center; ">
             {% if user in comentario.likes.all %}
                 Quitar Like
             {% else %}
@@ -35,28 +31,28 @@
     </form>
     <!-- Opciones de editar y eliminar -->
     {% if user == comentario.usuario or user.is_staff %}
-    <div class="comentario-actions">
+    <div class="comentario-actions" styles="text-align: center;justify-content: center; " >
       <!-- Botón para editar el comentario -->
-      <a href="{% url 'apps.publicaciones:modificar_comentario' comentario.pk %}" class="btn btn-primary">Editar</a>
+      <button href="{% url 'apps.publicaciones:modificar_comentario' comentario.pk %}"style="width: 120px; height: 50px; font-size: 20px; text-align: center align-items: center; justify-content: center; class="btn btn-primary">Editar</button>
 
       <!-- Formulario para eliminar el comentario -->
-      <form action="{% url 'apps.publicaciones:borrar_comentario' comentario.pk %}" method="POST" style="display:inline;">
+      <form action="{% url 'apps.publicaciones:borrar_comentario' comentario.pk %}" method="POST" style="display:inline;justify-content: center;">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este comentario?');">Eliminar</button>
+        <button style="width: 120px; height: 50px; font-size: 20px; text-align: center; align-items: center justify-content: center;">Eliminar</button>
       </form>
     </div>
   {% endif %}
 {% empty %}
-  <p>No hay comentarios aún.</p>
+  <p style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px; text-align: center; ">No hay comentarios aún.</p>
 {% endfor %}
 
 <!-- Formulario para agregar un nuevo comentario -->
-<h4>Agregar un comentario</h4>
+<h4 style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px; text-align: center; justify-content: center;">Agregar un comentario</h4>
 <form method="POST" action="{% url 'apps.publicaciones:comentar' publicacion.id %}" >
   {% csrf_token %}
-  <textarea name="texto" rows="4" cols="50" required></textarea>
+  <textarea name="texto" rows="8" cols="50" style="justify-content: center; align-items: center; "  required></textarea>
   <br>
-  <button type="submit">Enviar</button>
+  <button style="width: 120px; height: 50px; font-size: 20px; justify-content: center;">Enviar</button>
 </form>
 
 {% endblock %}

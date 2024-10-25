@@ -13,14 +13,8 @@ from django.urls.base import reverse_lazy
 from django.http import HttpResponse
 from django.utils.dateformat import format
 
-
-
-
-
 def is_colaborador(user):
     return user.groups.filter(name='moderador').exists()
-
-
 
 # # -----------------------------   CREAR PUBLICACION-----------------
 
@@ -28,7 +22,6 @@ def is_colaborador(user):
 @user_passes_test(is_colaborador)
 def crear_publicacion(request):
     form = CrearpublicacionForm()
-
 
     if request.method == "POST":
         form = CrearpublicacionForm(request.POST, request.FILES)
@@ -67,50 +60,11 @@ def mostrar_publicacion(request, pk):
 # # -----------------------------   EDITAR PUBLICACION-----------------
 
 
-def editar_publicacions(request, id): 
-    # publicacion = get_object_or_404(Publicacion,id=id)     
-    try:
-        publicacion = Publicacion.objects.get(id=id)
-    except Publicacion.DoesNotExist:
-        return HttpResponse("publicacion no encontrada",status=404)
-
-    if request.method == 'POST':
-        form = EdicionPublicacionForm(request.POST, request.FILES, instance=publicacion)
-        if form.is_valid():
-            form.save()
-            return redirect('apps.publicaciones:mostrarTodo_publicacion')  # Redirige a la lista de publicaciones o al detalle
-    else:
-        form = EdicionPublicacionForm(instance=publicacion)
-        
-    return render(request, "editar.html", {'form':form, 'publicacion':publicacion})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 def editar_publicacion(request, id):
     publicacion = Publicacion.objects.get(id=id)
     fecha=format(publicacion.fechachaEmicion,'d-m-Y')
-    form=CrearpublicacionForm(instance=publicacion)
+    form=EdicionPublicacionForm(instance=publicacion)
     # form = CrearpublicacionForm(
     #     initial={
     #         "nombre": publicacion.nombre,
@@ -191,7 +145,7 @@ def get_context_data(self, **kwargs):
 
 
 def agregar_comentario(request,pk):
-    publicacion=Publicacion.objects.get(id=pk)
+    publicacion=Publicacion.objects.get(pk=pk)
     if request.method=="POST":
         form=Form_Modificacion(request.POST)
         if form.is_valid():
