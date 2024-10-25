@@ -4,7 +4,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["proyectofianl.pythonanywhere.com"]
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
