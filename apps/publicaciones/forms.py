@@ -20,8 +20,11 @@ class CrearpublicacionForm(forms.Form):
         fields = ["nombre", "review", "enlace", "fechachaEmicion","Categoria","imagen"]
         help_texts = {k: "" for k in fields}
 
-
-
+# ---------------------editpublic
+class EdicionPublicacionForm(forms.ModelForm):
+    class Meta:
+        model = Publicacion
+        fields = ["nombre", "review", "enlace", "fechachaEmicion","Categoria","imagen"]
 
 
 # --------------------------COEMNTARIOS----------------------------

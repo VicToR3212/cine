@@ -6,15 +6,12 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from django.views.generic import DeleteView, UpdateView
 # ··------------------------------------------------------------
 from .models import Publicacion,Comentario
-from .forms import CrearpublicacionForm,Form_Modificacion
+from .forms import CrearpublicacionForm,Form_Modificacion,EdicionPublicacionForm
 
 # ----
 from django.urls.base import reverse_lazy
-from django.http import HttpResponseRedirect
-
-
-
-
+from django.http import HttpResponse
+from django.utils.dateformat import format
 
 def is_colaborador(user):
     return user.groups.filter(name='moderador').exists()
@@ -25,7 +22,6 @@ def is_colaborador(user):
 @user_passes_test(is_colaborador)
 def crear_publicacion(request):
     form = CrearpublicacionForm()
-
 
     if request.method == "POST":
         form = CrearpublicacionForm(request.POST, request.FILES)
@@ -47,6 +43,7 @@ def crear_publicacion(request):
 
 # -----------------------------   MOSTRAR TODOO PUBLICACION-----------------
 
+
 def mostrarTodo_publicacion(request):
     return render(request, "portada.html", {"peliculas": Publicacion.objects.all()})
 
@@ -59,58 +56,24 @@ def mostrar_publicacion(request, pk):
     comentarios=Comentario.objects.all().filter(publicacion=publicacion)
     return render(request, "ver.html", {"publicacion": publicacion,"comentarios":comentarios})
 
+
 # # -----------------------------   EDITAR PUBLICACION-----------------
 
 
-def editar_publicacion(request,id):
-    # publicacion = get_object_or_404(Publicacion,id=id)
+
+def editar_publicacion(request, id):
     publicacion = Publicacion.objects.get(id=id)
-    if request.method == 'POST':
-        form = CrearpublicacionForm(request.POST, request.FILES, instance=publicacion)
-        if form.is_valid():
-            form.save()
-            return redirect('apps.publicaciones:mostrarTodo_publicacion')  # Redirige a la lista de publicaciones o al detalle
-    else:
-        form = CrearpublicacionForm(instance=publicacion)
-        
-        return render(request, "editar.html", {'form':form, 'publicacion':publicacion})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@login_required()
-@user_passes_test(is_colaborador)
-def editar_publicacions(request, pk):
-    publicacion = Publicacion.objects.get(pk=pk)
-    form = CrearpublicacionForm(
-        initial={
-            "nombre": publicacion.nombre,
-            "review": publicacion.review,
-            "Categoria": publicacion.Categoria,
-            "enlace": publicacion.enlace,
-            "fechachaEmicion":publicacion.fechachaEmicion
-        }
-    )
+    fecha=format(publicacion.fechachaEmicion,'d-m-Y')
+    form=EdicionPublicacionForm(instance=publicacion)
+    # form = CrearpublicacionForm(
+    #     initial={
+    #         "nombre": publicacion.nombre,
+    #         "review": publicacion.review,
+    #         "Categoria": publicacion.Categoria,
+    #         "enlace": publicacion.enlace,
+    #         "fechachaEmicion":fecha,
+    #     }
+    # )
 
     data = {"form": CrearpublicacionForm(request.POST)}
     if request.method == "POST":
@@ -182,7 +145,7 @@ def get_context_data(self, **kwargs):
 
 
 def agregar_comentario(request,pk):
-    publicacion=Publicacion.objects.get(id=pk)
+    publicacion=Publicacion.objects.get(pk=pk)
     if request.method=="POST":
         form=Form_Modificacion(request.POST)
         if form.is_valid():

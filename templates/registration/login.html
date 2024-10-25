@@ -1,25 +1,17 @@
-
 {%extends "base.html"%}
-
-
 {%block title%} {%endblock%}
-
 {%  block content %}
-
 {% load static %}
-
 {% comment %} <link rel="stylesheet" href="{% static 'css/styles.css' %}" type='text/css' media="screen"> {% endcomment %}
 {{error}}
 {% csrf_token %}
 <section>
   <div class="from-box">
-
     {%if error%}
-    <h3>{{error}}</h3>
+    <h2>{{error}}</h2>
     {% endif %}
     <form action="" method="post">
       {% csrf_token %} 
-        
       {{form}}
       <button type ="submit">enviar</button>
   </section> 

@@ -5,13 +5,11 @@ from django.utils.timezone import now
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-
 class Categoria(models.Model):
     nombre = models.CharField(max_length=50)
 
     def __str__(self):
         return self.nombre
-
 
 class Publicacion(models.Model):
     nombre = models.CharField(max_length=30)
@@ -25,10 +23,7 @@ class Publicacion(models.Model):
         return self.nombre
 # DateField:
 
-
-
 # ---------comentarios
-
 
 class Comentario(models.Model):
     publicacion = models.ForeignKey(Publicacion, on_delete=models.CASCADE)
@@ -36,9 +31,6 @@ class Comentario(models.Model):
     texto = models.TextField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, blank=True, related_name='comment_likes')
-
-
-
     
     def __str__(self):
 
