@@ -2,8 +2,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = [proyectofianl.pythonanywhere.com.]
-
+ALLOWED_HOSTS = ["proyectofianl.pythonanywhere.com"]
 
 DATABASES = {
     'default': {
