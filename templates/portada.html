@@ -1,71 +1,34 @@
+
 {%extends "base.html"%} 
-{%block title%}__ esto es cine___{%endblock%} 
-
-
-{% block content %} 
-{% csrf_token %}
 {%load static%}
 
-   
-    <h5>filtros </h5>
-    <a href="{% url 'apps.publicaciones:filtradoaz'%}">a -z</a> 
-    <a href="{% url 'apps.publicaciones:filtradoza'%}">z -a</a> 
-    <a href="{% url 'apps.publicaciones:filtradomenor'%}">menor -mayot</a> 
-    <a href="{% url 'apps.publicaciones:filtradomayor'%}">mayor-menor</a> 
-     
-   
 
-{% comment %} 
-- Antigüedad (asc y desc).
- - Orden alfabético (asc y desc) 
-  </select>
-  <select>
-    <option disabled selected="">del mas antigo </option>
-    
-    <option>Antig moderno</option>
-    <option>menos antiguo</option>
-    
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="css/estilo.css"> 
+{% block content %} 
 
-{% endcomment %}
-  
-
-{%for p in peliculas %}
-
-<div style ="border:2px  solid black; width:1000px ; height 200px;">
-  <div  style ="border: 2px solid black;width:1000px ; height 200px;">
-
-  <h3>
-    <ul>
-    <h4>nombre:{{p.nombre}}<h4>
-    <h4>review:{{p.review}}</h4>
-    </ul>
-    <ul>
-      <h4>fechade emecion: {{p.fechachaEmicion}}</h4>
-      <h4>categoria: {{p.Categoria}}</h4>
-      </ul>
-      <ul>
-        <h4>enlace :{{p.enlace}}</h4>
-        </ul> 
-      </div>  
-      <div style ="border:2PX  solid black;width:1000px ; height 200px;">
-      {{p.enlace}} 
-    {% if p.imagen %}
-    <p>
-        <img src="{{p.imagen.url}}">
-    </p>
-    {% endif %}
-    </div>
-  </h3>
-
+<h5>filtros </h5>
+<a href="{% url 'apps.publicaciones:filtradoaz'%}">a -z</a> 
+<a href="{% url 'apps.publicaciones:filtradoza'%}">z -a</a> 
+<a href="{% url 'apps.publicaciones:filtradomenor'%}">menor -mayot</a> 
+<a href="{% url 'apps.publicaciones:filtradomayor'%}">mayor-menor</a> 
+ {%for p in peliculas %}
+ <div style="border:2px solid red; width:1000px; height 2000px;">
   <div>
-  <a href="{% url 'apps.publicaciones:mostrar_publicacion' p.id %}">ver</a>
+    {{p.genero }} 
+    {{p.nombre}}
+     {{p.review}}
+      {% if p.imagen %}
+      <img src="{{p.imagen.url}}  ">     
+</div>  
+  <div style="border:2px solid black; width:1000px; height 2000px;">
+   {% endif %}
+    <a href="{% url 'apps.publicaciones:mostrar_publicacion' p.id %}">ver</a>
   {%if request.user.is_staff%}
   <a href="{% url 'apps.publicaciones:editar_publicacion' p.id %}">edit</a>
   <a href="{% url 'apps.publicaciones:eliminar_publicacion' p.id %}">eliminar</a>
-  {%endif%}
-  </div>
+  </div> 
 </div>
-
-
-{%endfor%} 
+  {%endif%} 
+  {%endfor%}
 {% endblock %}

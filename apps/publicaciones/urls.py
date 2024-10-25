@@ -1,7 +1,6 @@
 from django.urls import path
 from .views import ModificaComentario,BorrarComentario, agregar_comentario,filtradomayor,filtradomenor,filtradoza,filtradoaz,crear_publicacion,mostrarTodo_publicacion,editar_publicacion,eliminar_publicacion,mostrar_publicacion, add_like
 
-
 app_name = "apps.publicaciones"
 
 urlpatterns = [
@@ -12,7 +11,7 @@ urlpatterns = [
     # mostrar una publicacion
     path("ver/<int:pk>", mostrar_publicacion, name="mostrar_publicacion"),
     # editar una publicacion
-    path("editar/<int:pk>", editar_publicacion, name="editar_publicacion"),
+    path("editar/<int:id>", editar_publicacion, name="editar_publicacion"),
     # eliminar una publicacion
     path("eliminar/<int:id>", eliminar_publicacion, name="eliminar_publicacion"),
     path("filtradoaz/",filtradoaz, name="filtradoaz"),
