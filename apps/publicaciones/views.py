@@ -6,11 +6,12 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from django.views.generic import DeleteView, UpdateView
 # ··------------------------------------------------------------
 from .models import Publicacion,Comentario
-from .forms import CrearpublicacionForm,Form_Modificacion
+from .forms import CrearpublicacionForm,Form_Modificacion,EdicionPublicacionForm
 
 # ----
 from django.urls.base import reverse_lazy
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+from django.utils.dateformat import format
 
 
 
@@ -18,6 +19,8 @@ from django.http import HttpResponseRedirect
 
 def is_colaborador(user):
     return user.groups.filter(name='moderador').exists()
+
+
 
 # # -----------------------------   CREAR PUBLICACION-----------------
 
@@ -47,6 +50,7 @@ def crear_publicacion(request):
 
 # -----------------------------   MOSTRAR TODOO PUBLICACION-----------------
 
+
 def mostrarTodo_publicacion(request):
     return render(request, "portada.html", {"peliculas": Publicacion.objects.all()})
 
@@ -59,21 +63,26 @@ def mostrar_publicacion(request, pk):
     comentarios=Comentario.objects.all().filter(publicacion=publicacion)
     return render(request, "ver.html", {"publicacion": publicacion,"comentarios":comentarios})
 
+
 # # -----------------------------   EDITAR PUBLICACION-----------------
 
 
-def editar_publicacion(request,id):
-    # publicacion = get_object_or_404(Publicacion,id=id)
-    publicacion = Publicacion.objects.get(id=id)
+def editar_publicacions(request, id): 
+    # publicacion = get_object_or_404(Publicacion,id=id)     
+    try:
+        publicacion = Publicacion.objects.get(id=id)
+    except Publicacion.DoesNotExist:
+        return HttpResponse("publicacion no encontrada",status=404)
+
     if request.method == 'POST':
-        form = CrearpublicacionForm(request.POST, request.FILES, instance=publicacion)
+        form = EdicionPublicacionForm(request.POST, request.FILES, instance=publicacion)
         if form.is_valid():
             form.save()
             return redirect('apps.publicaciones:mostrarTodo_publicacion')  # Redirige a la lista de publicaciones o al detalle
     else:
-        form = CrearpublicacionForm(instance=publicacion)
+        form = EdicionPublicacionForm(instance=publicacion)
         
-        return render(request, "editar.html", {'form':form, 'publicacion':publicacion})
+    return render(request, "editar.html", {'form':form, 'publicacion':publicacion})
 
 
 
@@ -98,19 +107,19 @@ def editar_publicacion(request,id):
 
 
 
-@login_required()
-@user_passes_test(is_colaborador)
-def editar_publicacions(request, pk):
-    publicacion = Publicacion.objects.get(pk=pk)
-    form = CrearpublicacionForm(
-        initial={
-            "nombre": publicacion.nombre,
-            "review": publicacion.review,
-            "Categoria": publicacion.Categoria,
-            "enlace": publicacion.enlace,
-            "fechachaEmicion":publicacion.fechachaEmicion
-        }
-    )
+def editar_publicacion(request, id):
+    publicacion = Publicacion.objects.get(id=id)
+    fecha=format(publicacion.fechachaEmicion,'d-m-Y')
+    form=CrearpublicacionForm(instance=publicacion)
+    # form = CrearpublicacionForm(
+    #     initial={
+    #         "nombre": publicacion.nombre,
+    #         "review": publicacion.review,
+    #         "Categoria": publicacion.Categoria,
+    #         "enlace": publicacion.enlace,
+    #         "fechachaEmicion":fecha,
+    #     }
+    # )
 
     data = {"form": CrearpublicacionForm(request.POST)}
     if request.method == "POST":

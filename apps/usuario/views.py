@@ -58,5 +58,5 @@ def acceder(request):
 
 
 # ------------------------------------------------------------------------------------------------------
-def Sobre_Nosotros(request):
-    return render(request,"Sobre_Nosotros.html")
+def sobre_nos(request):
+    return render(request,"Ver.html")

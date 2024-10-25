@@ -5,12 +5,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" conect="IE-edgue">
     <meta name="viewport" conect="width=device-width, inicial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href={% static "/css/styles.css" %}>
-    <link rel="stylesheet" type="text/css" href={% static "/css/encabezado.css" %}>
+    <link rel="stylesheet" type="text/css" href= "{% static '/css/styles.css'%}">
+    <link rel="stylesheet" type="text/css" href= "{% static '/css/encabezado.css'%}">
   </head>
   <body>
     <header>
-      <div class="container"style="background-color: transparente; padding: 10px 20px;">
+      <div class="header-content" style="display: flex; align-items: lef; justify-content: space-between;">
         <div class="btn-menu"style="display: flex; align-items: center; justify-content: space-between;" >
             <div class="logo">
               <a href="apps.publicaciones:mostrarTodo_publicacion" class="logo">
@@ -21,7 +21,7 @@
               <h1 style="margin: 0; font-size: 50px;">Cine Kaiser</h1>
               <h3 style="margin: 0; font-size: 30px; color: #555;">Elige tu favorito y viaja en el tiempo</h3>
             </div>
-        <nav class="menu">
+        <nav class="menu" >
         {% block title %}{% endblock %}
         <a href="{% url 'apps.publicaciones:mostrarTodo_publicacion'%}">Inicio</a>
           {%if request.user.is_authenticated%}{{ user.username | upper }}
@@ -32,63 +32,8 @@
         <a href="{% url 'apps.usuario:acceder'%}"> Iniciar Sesion</a> 
         <a href="{% url 'apps.usuario:crear_usuario'%}">Cuenta Nueva</a>
         <a href="{% url 'apps.usuario:Sobre_Nosotros'%}">Sobre Nosotros</a>
-          {%endif%} 
-      <nav>
-
-
-
-
-
         
-<label for ="fil">filtrar por :</label>
-<select name ="" id="fil">
-  <option value="">de la A a la Z</option>
-  <option value="">de la Z a la A</option>
-  <option value="">fecha mayor a menor</option>
-  <option value="">fecha menor a mayor</option>
-   
-
-
-</select>
-
-
-        {% block title %} {% endblock %}        
- 	 <ul>
-    <li><a href="{% url 'apps.publicaciones:mostrarTodo_publicacion'%}">inicio</a>
-
-      {%if request.user.is_authenticated%}
-      <h5>
-          <li>bienvenido:  {{ user.username | upper }}<a href={% url "apps.usuario:salir"%}>  cerrar cecion</a> 
-        </h5>
-        </li>
-      {%if request.user.is_staff%}
-
-        <li><a href="{% url 'apps.publicaciones:crear_publicacion'%}">publicar</a></li>
-        {%endif%}
-
-      {%else%}
-
-      <li>  bienvenido:  <a href={% url "apps.usuario:acceder"%}> inisiar cecion</a> </h5>  </li>
-      <li><a href="{% url 'apps.usuario:crear_usuario'%}">cuentanueva</a></li>
-      {%endif%}
-          
-                
-        </li>
-        </ul>
-      </nav>
-
-
-
-
-
-
-
-
-    {% block content %}
-
-    {% endblock %}
-
-
+        {%endif%} 
     
     </header>
       {% block content %} {% endblock %}
