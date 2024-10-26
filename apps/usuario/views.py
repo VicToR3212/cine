@@ -25,7 +25,7 @@ def crear_usuario(request):
                 user=User.objects.create_user(username=request.POST['Username'],password=request.POST['password1'])
                 user.save()
                 login(request,user)
-                return redirect("apps.publicaciones:mostrarTodo_publicacion")
+                return redirect("inicio")
                 
 
         
@@ -53,7 +53,7 @@ def acceder(request):
             return render(request,"registration/login.html",{"form":AuthenticationForm ,'error':"contraseñas o usuariio no coinciden"})
         else:
             login(request,user)
-            return redirect("apps.publicaciones:mostrarTodo_publicacion")
+            return redirect("inicio")
             
 
 

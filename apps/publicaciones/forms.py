@@ -4,15 +4,18 @@ from django import forms
 from .models import Publicacion, Categoria,Comentario
 
 
-class CrearpublicacionForm(forms.Form):
+class CrearpublicacionForm(forms.ModelForm):
     nombre = forms.CharField(widget=forms.TextInput())
     review = forms.CharField(widget=forms.TextInput())
     enlace = forms.CharField(widget=forms.TextInput())   
-    fechachaEmicion = forms.CharField( widget=forms.DateInput(attrs= {'type':"date",}))
+    #fechachaEmicion = forms.CharField( widget=forms.DateInput(attrs= {'type':"date",}))
+    fechachaEmicion =forms.DateField(
+        widget=forms.DateInput(attrs={'type':'date'} ,format='%Y-%m-%d')
+    )
     Categoria= forms.ModelChoiceField(
         label="categoria", queryset=Categoria.objects.all()
     )
-    imagen = forms.ImageField(widget=forms.FileInput())
+    imagen = forms.ImageField(widget=forms.FileInput() , required=False )
 
     class Meta:
         model = Publicacion

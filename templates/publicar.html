@@ -2,9 +2,12 @@
 {%extends "base.html"%}
 {%block title%}{%endblock%}
 {%  block content %}
-   <form  method="POST" enctype="multipart/form-data">
+    <form  method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-     {{ form }}
-     <button type ="submit">enviar</button>
+    {{ form }}
+    {% if publicacion.imagen %}
+    <img src="{{publicacion.imagen.url}}" alt="imagen actual" >
+    {%endif%}
+    <button type ="submit">enviar</button>
     </form>
 {% endblock %}

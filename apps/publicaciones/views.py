@@ -34,7 +34,7 @@ def crear_publicacion(request):
             publicacion.Categoria = form.cleaned_data["Categoria"]
             publicacion.imagen = form.cleaned_data["imagen"]
             publicacion.save()
-            return redirect("apps.publicaciones:mostrarTodo_publicacion")
+            return redirect("inicio")
         else:
             print("invalido")
     contexto = {"form": form}
@@ -44,8 +44,9 @@ def crear_publicacion(request):
 # -----------------------------   MOSTRAR TODOO PUBLICACION-----------------
 
 
-def mostrarTodo_publicacion(request):
-    return render(request, "portada.html", {"peliculas": Publicacion.objects.all()})
+# def mostrarTodo_publicacion(request):
+#     peliculas=Publicacion.objects.all()
+#     return render(request, "portada.html", {"peliculas": peliculas})
 
 
 #--------------------------------   MOSTRAR PUBLICACION-----------------
@@ -63,34 +64,32 @@ def mostrar_publicacion(request, pk):
 
 def editar_publicacion(request, id):
     publicacion = Publicacion.objects.get(id=id)
-    fecha=format(publicacion.fechachaEmicion,'d-m-Y')
-    form=EdicionPublicacionForm(instance=publicacion)
-    # form = CrearpublicacionForm(
-    #     initial={
-    #         "nombre": publicacion.nombre,
-    #         "review": publicacion.review,
-    #         "Categoria": publicacion.Categoria,
-    #         "enlace": publicacion.enlace,
-    #         "fechachaEmicion":fecha,
-    #     }
-    # )
+    # form=EdicionPublicacionForm(instance=publicacion)
 
-    data = {"form": CrearpublicacionForm(request.POST)}
     if request.method == "POST":
-        form = CrearpublicacionForm(request.POST, request.FILES)
+        form = CrearpublicacionForm(request.POST, request.FILES,instance=publicacion)
         if form.is_valid():
             publicacion.nombre = form.cleaned_data["nombre"]
             publicacion.review = form.cleaned_data["review"]
             publicacion.Categoria = form.cleaned_data["Categoria"]
-            publicacion.imagen = form.cleaned_data["imagen"]
+            if not form.cleaned_data["imagen"]:
+                publicacion.imagen = form.cleaned_data["imagen"]
             publicacion.enlace = form.cleaned_data["enlace"]
             publicacion.fechachaEmicion = form.cleaned_data["fechachaEmicion"]
             publicacion.save()
-            return redirect("apps.publicaciones:mostrarTodo_publicacion")
+            return redirect("inicio")
         else:
-            print("invalido")
-    contexto = {"form": form}
-    return render(request, "publicar.html", {"form": form})
+            return HttpResponse("FORMULARIO INVALIDO",status=404)
+    else:
+        form=CrearpublicacionForm(initial={
+            "nombre":publicacion.nombre,
+            "review":publicacion.review,
+            "Categoria":publicacion.Categoria,
+            "imagen":publicacion.imagen,
+            "enlace":publicacion.enlace,
+            "fechachaEmicion":publicacion.fechachaEmicion,
+        })
+    return render(request, "publicar.html", {"form": form, "publicacion":publicacion})
 
 
 # # -----------------------------   eliminar PUBLICACION-----------------
@@ -100,12 +99,8 @@ def editar_publicacion(request, id):
 @user_passes_test(is_colaborador)
 def eliminar_publicacion(request, id):
     publicacion = get_object_or_404(Publicacion, id=id)
-    ima=publicacion.nombre
-    ruta="media/"+str(publicacion.imagen)
     publicacion.delete()
-    import os 
-    os.remove(ruta)
-    return redirect("apps.publicaciones:mostrarTodo_publicacion")
+    return redirect("inicio")
 
 # #---------------------------FILTROS-----------------------------------
 
