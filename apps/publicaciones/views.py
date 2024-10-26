@@ -103,6 +103,17 @@ def eliminar_publicacion(request, id):
     return redirect("inicio")
 
 # #---------------------------FILTROS-----------------------------------
+def filtradoClasicos(request):
+
+        return render(request, "portada.html", {"peliculas": Publicacion.objects.filter(Categoria=2)})
+
+def filtradoNenas(request):
+
+        return render(request, "portada.html", {"peliculas": Publicacion.objects.filter(Categoria=3)})
+
+def filtradoVarones(request):
+
+        return render(request, "portada.html", {"peliculas": Publicacion.objects.filter(Categoria=4)})
 
 # #---------------------------filtros-----de la Z la  A------------------------------
 
