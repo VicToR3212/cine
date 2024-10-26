@@ -1,0 +1,113 @@
+{% extends "base.html"%}
+{% block content %}
+<h3 style="margin: 30; font-size: 20px; color: black; margin-left:0px;text-align: center;">{{ publicacion.genero }}
+    {{ publicacion.nombre }}
+    {{ publicacion.review }}</h3>
+    {% if publicacion.imagen %}
+<div style="text-align: center;" >
+  <iframe width="315" height="315" src="{{publicacion.enlace}}" allowfullscreen ></iframe>
+</div>
+{% endif %}
+
+<h4 style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px; text-align: center; justify-content: center;">Comentarios</h4>
+
+{% for comentario in comentarios %}
+  <section class="comentario__container">
+    <div class="comentario__informacion">
+      <p>{{comentario.created_at}} | <strong>{{comentario.likes.count}} ❤️</strong></p>
+      <div class="comentario__comentario">
+        <p>{{comentario.usuario}}:</p>
+        <p>{{comentario.texto}}</p>
+      </div>
+    </div>
+    <div class="comentario__botones">
+      <!-- LIKE POST BTN -->
+      <form action="{% url 'apps.publicaciones:like' publicacion.pk comentario.pk %}" method="POST">
+        {% csrf_token %}
+        <button>
+            {% if user in comentario.likes.all %} Quitar Like {% else %} Dar Like {% endif %}
+        </button>
+      </form>
+
+      {% if user == comentario.usuario or user.is_staff %}
+      <!-- EDITAR POST BTN -->
+      <form action="{% url 'apps.publicaciones:modificar_comentario' comentario.pk %}" method='POST'>
+        {% csrf_token %}
+        <button>Editar</button>
+      </form>
+
+
+      <!-- Formulario para eliminar el comentario -->
+      <form action="{% url 'apps.publicaciones:borrar_comentario' comentario.pk %}" method="POST">
+        {% csrf_token %}
+        <button>Eliminar</button>
+      </form>
+
+      <!-- ELIMINAR POST BTN -->
+      {% endif %}
+    </div>
+    {% empty %}
+      <p style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px; text-align: center; ">No hay comentarios aún.</p>
+  </section>
+{% endfor %}
+
+<!-- Sección para mostrar comentarios existentes -->
+{% for comentario in comentarios %}
+  <div style="text-align: center;">
+    <p style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px;"><strong>{{ comentario.usuario }}:</strong> {{ comentario.texto }}</p>
+    <p style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px;"><small>{{ comentario.created_at }}</small></p>
+    <!-- Mostrar cantidad de likes -->
+    <p style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px; justify-content: center;">{{ comentario.likes.count }} likes</p>
+  </div>
+    <!-- Botón para dar o quitar "like" -->
+    <form action="{% url 'apps.publicaciones:like' publicacion.pk comentario.pk %}" method="POST">
+        {% csrf_token %}
+        <button style="width: 120px; height: 50px; font-size: 20px; align-items: center; justify-content: center; ">
+            {% if user in comentario.likes.all %}
+                Quitar Like
+            {% else %}
+                Dar Like
+            {% endif %}
+        </button>
+    </form>
+    <!-- Opciones de editar y eliminar -->
+    {% if user == comentario.usuario or user.is_staff %}
+    <div class="comentario-actions" styles="text-align: center;justify-content: center; " >
+
+
+      <!-- Formulario para editar el comentario -->
+      <form action="{% url 'apps.publicaciones:modificar_comentario' comentario.pk %}" method='POST'>
+        {% csrf_token %}
+        <button style="width: 120px; height: 50px; font-size: 20px; text-align: center; align-items: center; justify-content: center;" class="btn btn-primary">Editar</button>
+      </form>
+
+
+      <!-- Formulario para eliminar el comentario -->
+      <form action="{% url 'apps.publicaciones:borrar_comentario' comentario.pk %}" method="POST" style="display:inline;justify-content: center;">
+        {% csrf_token %}
+        <button style="width: 120px; height: 50px; font-size: 20px; text-align: center; align-items: center; justify-content: center;">Eliminar</button>
+      </form>
+
+      
+    </div>
+  {% endif %}
+{% empty %}
+  <p style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px; text-align: center; ">No hay comentarios aún.</p>
+{% endfor %}
+
+
+
+<!-- Formulario para agregar un nuevo comentario -->
+<div class="agregar_comentario__container">
+<h4 style="margin: 30; font-size: 20px; color: #ffffff; margin-left:0px; text-align: center; justify-content: center;">Agregar un comentario</h4>
+<form method="POST" action="{% url 'apps.publicaciones:comentar' publicacion.id %}" class="agregar_comentario__form">
+  {% csrf_token %}
+  <textarea name="texto" rows="8" cols="50" style="justify-content: center; align-items: center; "  required></textarea>
+  <br>
+  <div class="agregar_comentario__form-btnContainer">
+    <button>Enviar</button>
+  </div>
+</form>
+</div>
+
+{% endblock %}

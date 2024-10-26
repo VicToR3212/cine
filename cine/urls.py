@@ -25,7 +25,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("admin/", admin.site.urls),
     #pagina principal 
-    path("",inicio),
+    path("",inicio,name="inicio"),
     #publicasiones
     path("publicaciones/",include('apps.publicaciones.urls')),
     #usuarios 

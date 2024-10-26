@@ -1,34 +1,43 @@
-{%extends "base.html"%} 
-{%load static%} 
-<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css'%}">
-<link rel="stylesheet" href="css/estilo.css"> 
+{% extends "base.html" %} 
+{% load static %} 
+{% block styles %} <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> {% endblock styles %}
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css'%}"> -->
+<!-- <link rel="stylesheet" href="css/estilo.css">  -->
+
 {% block content %} 
 
 <div style="display: flex; flex-wrap: wrap; align-content: space-between; justify-content: center;">
-<h3 style="margin: 0; font-size: 30px; color: #900C3F; ">Filtros: </h3>
-<a href="{% url 'apps.publicaciones:filtradoaz'%}"style="margin: 0; font-size: 30px; color: #900C3F; margin-left:50px;" >a - z</a> 
-<a href="{% url 'apps.publicaciones:filtradoza'%}" style="margin: 0; font-size: 30px; color: #900C3F;margin-left:50px; ">z - a</a> 
-<a href="{% url 'apps.publicaciones:filtradomenor'%}"style="margin: 0; font-size: 30px; color: #900C3F; margin-left:50px;">Más Nuevos</a> 
-<a href="{% url 'apps.publicaciones:filtradomayor'%}"style="margin: 0; font-size: 30px; color: #900C3F; margin-left:50px;">Más Viejos</a> 
+  <h3 style="margin: 0; font-size: 30px; color: #900C3F; ">Filtros: </h3>
+  <a href="{% url 'apps.publicaciones:filtradoaz'%}"style="margin: 0; font-size: 30px; color: #900C3F; margin-left:50px;" >a - z</a> 
+  <a href="{% url 'apps.publicaciones:filtradoza'%}" style="margin: 0; font-size: 30px; color: #900C3F;margin-left:50px; ">z - a</a> 
+  <a href="{% url 'apps.publicaciones:filtradomenor'%}"style="margin: 0; font-size: 30px; color: #900C3F; margin-left:50px;">Más Nuevos</a> 
+  <a href="{% url 'apps.publicaciones:filtradomayor'%}"style="margin: 0; font-size: 30px; color: #900C3F; margin-left:50px;">Más Viejos</a> 
 </div>
+
+<div class="tarjetas__container">
 {%for p in peliculas %}
-<h3>{{ publicacion.genero }}
-  {{ publicacion.nombre }}
-   {{ publicacion.review }}</h3>
-<div>
-  <div style="padding:5px; width=full; align-items: center;">
-  {% if p.imagen %}
-  <img src="{{p.imagen.url}}" title="{{p.nombre}}: {{p.review}}" style="width:160px;  "  >     
-  {% endif %}
+  <div class="tarjeta">
+    <h3 class="tarjeta__titulos">
+      {{ p.genero }}
+      {{ p.nombre }}
+    </h3>
+    <div class="tarjeta__imagenContainer">
+      {% if p.imagen %}
+        <img src="{{p.imagen.url}}" title="{{p.review}}">     
+      {% endif %}
+    </div>
+    <div class="tarjeta__botones">
+      {%if request.user.is_authenticated%}
+        <a href="{% url 'apps.publicaciones:mostrar_publicacion' p.id %}" class="tarjeta__botones-btn">ver</a>
+      {%endif%}
+
+      {%if request.user.is_staff%}
+        <a href="{% url 'apps.publicaciones:eliminar_publicacion' p.id %}" class="tarjeta__botones-btn">eliminar</a>
+        <a href="{% url 'apps.publicaciones:editar_publicacion' p.id %}" class="tarjeta__botones-btn">edit</a>
+      {%endif%} 
+    </div>
+  </div>
+{%endfor%}
 </div>
-  {%if request.user.is_authenticated%}
- 
-  <a href="{% url 'apps.publicaciones:mostrar_publicacion' p.id %}" style="align-items: center;">ver</a>
-  {%endif%}
-  {%if request.user.is_staff%}
-  <a href="{% url 'apps.publicaciones:eliminar_publicacion' p.id %}"style="align-items: center;" >eliminar</a>
-  <a href="{% url 'apps.publicaciones:editar_publicacion' p.id %}" style="align-items: center;">edit</a>
-  {%endif%} 
-</div>
-  {%endfor%}
+
 {% endblock %}

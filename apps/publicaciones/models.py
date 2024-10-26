@@ -28,7 +28,7 @@ class Publicacion(models.Model):
 class Comentario(models.Model):
     publicacion = models.ForeignKey(Publicacion, on_delete=models.CASCADE)
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    texto = models.TextField(max_length=300)
+    texto = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, blank=True, related_name='comment_likes')
     
